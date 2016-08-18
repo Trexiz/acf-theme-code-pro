@@ -5,7 +5,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // save format
-$save_format = $this->settings['save_format'];
+$save_format = isset( $this->settings['save_format'] ) ? $this->settings['save_format'] : '';
 
 // This is used to return the font awesome icon as a variable
 if ( $save_format == 'element' ) {

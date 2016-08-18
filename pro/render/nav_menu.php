@@ -5,7 +5,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // get return format
-$return_format = $this->settings['save_format'];
+$return_format = isset( $this->settings['save_format'] ) ? $this->settings['save_format'] : '';
 
 // Basic support for the nav menu field
 if ( $return_format == 'id' ) {

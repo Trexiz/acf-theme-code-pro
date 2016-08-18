@@ -5,7 +5,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // get return format
-$return_format = $this->settings['save_format'];
+$return_format = isset( $this->settings['save_format'] ) ? $this->settings['save_format'] : '';
 
 // If image is returned as an array (postmeta / v5) or an object (posts / v4)
 if ( $return_format == 'array' || $return_format == 'object'  ) {

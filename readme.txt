@@ -2,7 +2,7 @@
 Contributors: aaronrutley, ben-pearson
 Requires at least: 4.5.3
 Tested up to: 4.6
-Stable tag: 1.0.0
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -10,8 +10,16 @@ ACF Theme Code will automatically generate the code needed to implement Advanced
 
 == Changelog ==
 
+= 1.0.3 =
+* Fix: Use the_sub_field method for nested File fields with return format URL
+
+= 1.0.2 =
+* Field: Fix for Post Object when using ACF 4
+* Core: Various internal code improvements
+
 = 1.0.1 =
-* Bug fix for select and checkbox field
+* Field: Checkbox updated to support array
+* Field: Select updated to support array
 
 = 1.0.0 =
 * First version

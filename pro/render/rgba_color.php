@@ -4,8 +4,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Set return format
-$return_format = $this->settings['return_value'];
+// Set return value
+// NOTE: Value is a string
+$return_format = isset( $this->settings['return_value'] ) ? $this->settings['return_value'] : '';
 
 // Return format 'css rgba'
 if ( $return_format == '0' ) {
