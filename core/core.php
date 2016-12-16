@@ -123,7 +123,16 @@ class ACFTCP_Core {
 
 		}
 
-		$parent_field_group->render_field_group();
+		if ( !empty( $parent_field_group->fields ) ) {
+
+			$parent_field_group->render_field_group();
+
+		} else {
+
+			echo '<div class="acftc-intro-notice"><p>Create some fields and publish the field group to generate theme code.</p></div>';
+
+		}
+
 	}
 
 

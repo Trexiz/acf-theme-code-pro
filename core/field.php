@@ -13,6 +13,7 @@ class ACFTCP_Field {
 	private $nesting_level;
 	private $indent_count;
 	private $indent = '';
+	private $quick_link_id = '';
 	private $the_field_method = 'the_field';
 	private $get_field_method = 'get_field';
 	private $get_field_object_method = 'get_field_object';
@@ -93,6 +94,14 @@ class ACFTCP_Field {
 			$this->name = $this->settings['name'];
 			$this->type = $this->settings['type'];
 
+			// if field is not nested
+			if ( 0 == $this->nesting_level ) {
+
+				// get quick link id
+				$this->quick_link_id = $this->settings['key'];
+
+			}
+
 		}
 
 	}
@@ -110,6 +119,14 @@ class ACFTCP_Field {
 			$this->label = $field_data_obj->post_title;
 			$this->name = $field_data_obj->post_excerpt;
 			$this->type = $this->settings['type'];
+
+			// if field is not nested
+			if ( 0 == $this->nesting_level ) {
+
+				// get quick link id
+				$this->quick_link_id = $this->id;
+
+			}
 
 		}
 
@@ -184,8 +201,8 @@ class ACFTCP_Field {
 				echo '</div>';
 
 				// open div for field code wrapper (used for the button etc)
-				echo '<div class="acftc-field-code">';
-
+				echo '<div class="acftc-field-code" id="acftc-' . $this->quick_link_id . '">';
+				
 				// copy button
 				echo '<a href="#" class="acftc-field__copy" title="Copy to Clipboard"></a>';
 

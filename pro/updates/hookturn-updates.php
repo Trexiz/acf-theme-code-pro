@@ -8,18 +8,9 @@
 
 function hookturn_acftcp_license_menu() {
 
-	/*
-	add_submenu_page(
-	   'edit.php?post_type=acf-field-group',
-	   'Theme Code Pro Options',
-	   'Theme Code Pro',
-	   'manage_options',
-	   'acf-theme-code-pro',
-	   'hookturn_acftcp_license_page'
-   );
-   */
+	// add settings page for Theme Code Pro
+	add_options_page('Theme Code Pro License', 'Theme Code Pro', 'manage_options', 'theme-code-pro-license', 'hookturn_acftcp_license_page' );
 
-	add_plugins_page('Theme Code Pro License', 'Theme Code Pro', 'manage_options', 'theme-code-pro-license', 'hookturn_acftcp_license_page' );
 }
 add_action('admin_menu', 'hookturn_acftcp_license_menu');
 

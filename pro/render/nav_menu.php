@@ -1,5 +1,6 @@
 <?php
 // Nav Menu field
+// https://wordpress.org/plugins/advanced-custom-fields-nav-menu-field
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -11,7 +12,7 @@ $return_format = isset( $this->settings['save_format'] ) ? $this->settings['save
 if ( $return_format == 'id' ) {
     echo $this->indent . htmlspecialchars("<?php \$".$this->name. ' = ' . $this->get_field_method . "( '" . $this->name ."' );")."\n";
     echo $this->indent . htmlspecialchars("wp_nav_menu( array(")."\n";
-    echo $this->indent . htmlspecialchars(" 'id' => \$".$this->name)."\n";
+    echo $this->indent . htmlspecialchars(" 'menu' => \$".$this->name)."\n";
     echo $this->indent . htmlspecialchars(") ); ?>")."\n";
 }
 
