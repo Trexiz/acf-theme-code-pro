@@ -62,11 +62,11 @@ function hookturn_acftcp_license_page() {
 
 function hookturn_acftcp_register_option() {
 	// creates our settings in the options table
-	register_setting('hookturn_acftcp_license', 'hookturn_acftcp_license_key', 'edd_sanitize_license' );
+	register_setting('hookturn_acftcp_license', 'hookturn_acftcp_license_key', 'hookturn_sanitize_license' );
 }
 add_action('admin_init', 'hookturn_acftcp_register_option');
 
-function edd_sanitize_license( $new ) {
+function hookturn_sanitize_license( $new ) {
 	$old = get_option( 'hookturn_acftcp_license_key' );
 	if( $old && $old != $new ) {
 		delete_option( 'hookturn_acftcp_license_status' ); // new license has been entered, so must reactivate

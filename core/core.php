@@ -36,7 +36,14 @@ class ACFTCP_Core {
 		'smart_button',
 		'sidebar_selector',
 		'tablepress_field',
-		'table'
+		'table',
+		'address',
+		'acf_code_field',
+		'posttype_select',
+		'link',
+		'link_picker',
+		'youtubepicker',
+		'number_slider'
 	);
 
 	/**
@@ -80,13 +87,13 @@ class ACFTCP_Core {
 		 */
 
 		if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) || // ACF Pro
-			 is_plugin_active( 'advanced-custom-fields-pro-beta/acf.php') || // ACF Pro Beta
-			 is_plugin_active( 'acf-pro-master/acf.php' ) ) { // ACF Pro Beta alt
-			self::$db_table = 'posts';
-		} elseif  ( is_plugin_active('advanced-custom-fields/acf.php' ) ) { // ACF
-			self::$db_table = 'postmeta';
-		}
-
+ 	         is_plugin_active( 'advanced-custom-fields-pro-beta/acf.php') || // ACF Pro Beta
+ 	         is_plugin_active( 'acf-pro-master/acf.php' ) ) { // ACF Pro Beta alt
+ 	        self::$db_table = 'posts';
+ 	    } elseif  ( is_plugin_active('advanced-custom-fields/acf.php' ) ) { // ACF
+ 	        self::$db_table = 'postmeta';
+ 	    }
+		
 	}
 
 
@@ -118,8 +125,10 @@ class ACFTCP_Core {
 
 		} elseif ( self::$db_table == 'posts') {
 
-			$field_group_location = $this->get_field_group_locations( $post );
+			$field_group_location = $this->get_field_group_locations( $post ); // TODO: incomplete functionality
+
 			$parent_field_group = new ACFTCP_Group( $post->ID, 0 , 0 , $field_group_location);
+			// ACFTCP_Group( $field_group_id, $nesting_level, $indent_count, $location) {
 
 		}
 

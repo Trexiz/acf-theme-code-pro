@@ -12,9 +12,9 @@ if ( "postmeta" == ACFTCP_Core::$db_table ) { // ACF
 
 // If image is returned as an array (postmeta / v5) or an object (posts / v4)
 if ( $return_format == 'array' || $return_format == 'object'  ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->name." = " . $this->get_field_method . "( '".$this->name."' ); ?>")."\n";
-	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->name." ) { ?>")."\n";
-	echo $this->indent . htmlspecialchars("	<img src=\"<?php echo \$".$this->name."['url']; ?>\" alt=\"<?php echo \$".$this->name."['alt']; ?>\" />")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '".$this->name."' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ) { ?>")."\n";
+	echo $this->indent . htmlspecialchars("	<img src=\"<?php echo \$".$this->var_name."['url']; ?>\" alt=\"<?php echo \$".$this->var_name."['alt']; ?>\" />")."\n";
 	echo $this->indent . htmlspecialchars("<?php } ?>\n");
 }
 
@@ -27,8 +27,8 @@ if ( $return_format == 'url' ) {
 
 // If image is returned as an ID
 if ( $return_format == 'id' ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->name." = " . $this->get_field_method . "( '".$this->name."' ); ?>")."\n";
-	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->name." ) { ?>")."\n";
-	echo $this->indent . htmlspecialchars("	<?php echo wp_get_attachment_image( \$".$this->name.", 'full' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '".$this->name."' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ) { ?>")."\n";
+	echo $this->indent . htmlspecialchars("	<?php echo wp_get_attachment_image( \$".$this->var_name.", 'full' ); ?>")."\n";
 	echo $this->indent . htmlspecialchars("<?php } ?>\n");
 }

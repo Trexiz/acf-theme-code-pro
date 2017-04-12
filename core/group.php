@@ -30,19 +30,23 @@ class ACFTCP_Group {
 	// theme code indent for the field group
 	public $indent_count;
 
-	// field location (for options panel etc)
-	public $location;
+	// if the field group is a clone
+	public $clone = false;
+	public $clone_parent_acftcp_group_ref = null;
 
+	// field location (for options panel etc)
+	public $location; // TODO: Incomplete functionality
 
 	/**
 	 * Constructor for field group
 	 *
-	 * @param $field_group_id	int
-	 * @param $nesting_level	int
-	 * @param $indent_count		int
-	 * @param $location			string
+	 * @param $field_group_id					int
+	 * @param $nesting_level					int
+	 * @param $indent_count						int
+	 * @param $location							string
+	 * @param $clone_parent_acftcp_group_ref	object ref
 	 */
-	function __construct( $field_group_id, $nesting_level = 0, $indent_count = 0, $location = '' ) {
+	function __construct( $field_group_id, $nesting_level = 0, $indent_count = 0, $location = '', &$clone_parent_acftcp_group_ref = null ) {
 
 		if ( !empty( $field_group_id ) ) {
 
@@ -50,7 +54,8 @@ class ACFTCP_Group {
 			$this->fields = $this->get_fields();
 			$this->nesting_level = $nesting_level;
 			$this->indent_count = $indent_count;
-			$this->location = $location;
+			$this->location = $location; // TODO: Incomplete functionality
+			$this->clone_parent_acftcp_group_ref = &$clone_parent_acftcp_group_ref;
 
 		}
 
@@ -153,13 +158,15 @@ class ACFTCP_Group {
 		elseif ( 'posts' == ACFTCP_Core::$db_table ) {
 
 			// create and render ACFTCP_Field objects
-			foreach ( $this->fields as $field ) {
+			foreach ( $this->fields as $field_post_obj ) {
 
 				$acftc_field = new ACFTCP_Field(	$this->nesting_level,
 												$this->indent_count,
-												$this->location,
-												$field
+												$this->location, // TODO: Incomplete location functionality
+												$field_post_obj,
+												$this->clone_parent_acftcp_group_ref // TODO: Add this clone bit to the postmeta table func above?
 												);
+
 				$acftc_field->render_field();
 
 			}

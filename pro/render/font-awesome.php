@@ -17,6 +17,6 @@ if ( $save_format == 'class' ) {
 }
 
 if ( $save_format == 'unicode'  || $save_format == 'object' ) {
-	echo $this->indent . htmlspecialchars("<?php $".$this->name." = " . $this->get_field_method . "( '" . $this->name ."' );")."\n";
-	echo $this->indent . htmlspecialchars("// var_dump( $".$this->name." ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."' );")."\n";
+	echo $this->indent . htmlspecialchars("// var_dump( \$".$this->var_name." ); ?>")."\n";
 }

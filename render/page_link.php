@@ -15,8 +15,8 @@ if($multiple_values == '0') {
 
 // If multiple
 if($multiple_values == '1') {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->name."_items =  " . $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
-	echo $this->indent . htmlspecialchars("<?php foreach ( \$".$this->name."_items as \$".$this->name."_item ) { ?>")."\n";
-	echo $this->indent . htmlspecialchars("	<?php echo \$".$this->name."_item; ?> ")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_items =  " . $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php foreach ( \$".$this->var_name."_items as \$".$this->var_name."_item ) { ?>")."\n";
+	echo $this->indent . htmlspecialchars("	<?php echo \$".$this->var_name."_item; ?> ")."\n";
 	echo $this->indent . htmlspecialchars("<?php } ?>")."\n";
 }

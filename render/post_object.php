@@ -14,14 +14,14 @@ $return_format = isset( $this->settings['return_format'] ) ? $this->settings['re
 
 // If not object (so ID or Null) and single
 if( $return_format != 'object' && $multiple_values == '0' ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->name. ' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
-	echo $this->indent . htmlspecialchars("<?php // var_dump( \$".$this->name." ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name. ' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php // var_dump( \$".$this->var_name." ); ?>")."\n";
 }
 
 // If not object (so ID or Null) and multiple
 if( $return_format != 'object' && $multiple_values == '1' ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->name.' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
-	echo $this->indent . htmlspecialchars("<?php // var_dump( \$".$this->name." ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name.' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php // var_dump( \$".$this->var_name." ); ?>")."\n";
 }
 
 // If object and single

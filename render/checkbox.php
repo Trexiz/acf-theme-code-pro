@@ -11,10 +11,10 @@ if($return_format == 'value' || $return_format == 'label') {
 
     // Return the code to ouput the vlaue from an array
     echo $this->indent . htmlspecialchars("<?php // ".$this->name." ( ".$return_format." )")."\n";
-    echo $this->indent . htmlspecialchars("\$".$this->name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
-    echo $this->indent . htmlspecialchars("if ( \$".$this->name."_array ):")."\n";
-    echo $this->indent . htmlspecialchars("	foreach ( \$".$this->name."_array as \$".$this->name."_item ):")."\n";
-    echo $this->indent . htmlspecialchars("	 	echo \$".$this->name."_item;")."\n";
+    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
+    echo $this->indent . htmlspecialchars("if ( \$".$this->var_name."_array ):")."\n";
+    echo $this->indent . htmlspecialchars("	foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ):")."\n";
+    echo $this->indent . htmlspecialchars("	 	echo \$".$this->var_name."_item;")."\n";
     echo $this->indent . htmlspecialchars("	endforeach;")."\n";
     echo $this->indent . htmlspecialchars("endif; ?>"."\n");
 
@@ -22,10 +22,10 @@ if($return_format == 'value' || $return_format == 'label') {
 
     // Return the code to output the value from a multi dimensional array
     echo $this->indent . htmlspecialchars("<?php // ".$this->name." ( ".$return_format." )")."\n";
-    echo $this->indent . htmlspecialchars("\$".$this->name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
-    echo $this->indent . htmlspecialchars("if ( \$".$this->name."_array ):")."\n";
-    echo $this->indent . htmlspecialchars("	foreach ( \$".$this->name."_array as \$".$this->name."_item ):")."\n";
-    echo $this->indent . htmlspecialchars("	 	echo \$".$this->name."_item['value'];")."\n";
+    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
+    echo $this->indent . htmlspecialchars("if ( \$".$this->var_name."_array ):")."\n";
+    echo $this->indent . htmlspecialchars("	foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ):")."\n";
+    echo $this->indent . htmlspecialchars("	 	echo \$".$this->var_name."_item['value'];")."\n";
     echo $this->indent . htmlspecialchars("	endforeach;")."\n";
     echo $this->indent . htmlspecialchars("endif; ?>"."\n");
 

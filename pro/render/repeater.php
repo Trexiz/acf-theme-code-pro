@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Repater field vars
 $field_location = '';
-$nesting_arg = '';
+$nesting_arg = 0;
 
 // Set sub field nesting level and indent
 $sub_field_indent_count = $this->indent_count + ACFTCP_Core::$indent_repeater;

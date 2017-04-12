@@ -13,6 +13,7 @@ class ACFTCP_Field {
 	private $nesting_level;
 	private $indent_count;
 	private $indent = '';
+
 	private $quick_link_id = '';
 	private $the_field_method = 'the_field';
 	private $get_field_method = 'get_field';
@@ -22,6 +23,7 @@ class ACFTCP_Field {
 	private $label;
 	private $name;
 	private $type;
+	private $var_name;
 
 	/**
 	 * All unserialized field data to be used in partials for edge cases.
@@ -29,23 +31,26 @@ class ACFTCP_Field {
 	 */
 	public $settings;
 
+	private $clone = false;
+
 	private $location;
 
 
 	/**
 	 * Constructor
 	 *
-	 * @param $nesting_level	int
-	 * @param $indent_count		int
-	 * @param $location			string
-	 * @param $field_data_obj	object
-	 * @param $field_id			int
+	 * @param $nesting_level					int
+	 * @param $indent_count						int
+	 * @param $location							string
+	 * @param $field_data_obj					object
+	 * @param $clone_parent_acftcp_field_ref	object ref
 	 */
-	function __construct( $nesting_level = 0, $indent_count = 0 , $location = '', $field_data_obj = null, $field_id = null ) {
+	function __construct( $nesting_level = 0, $indent_count = 0 , $location = '', $field_data_obj = null, &$clone_parent_acftcp_field_ref = null ) {
 
 		$this->nesting_level = $nesting_level;
 		$this->indent_count = $indent_count;
 
+		// TODO: Incomplete location functionality
 		$this->location = $location;
 
 		// if location set to options page, add the options parameter
@@ -76,6 +81,18 @@ class ACFTCP_Field {
 			$this->construct_from_posts_table( $field_data_obj );
 		}
 
+		// cloned fields
+		if ( $clone_parent_acftcp_field_ref ) {
+
+			$this->clone = true;
+			$clone_settings = $clone_parent_acftcp_field_ref->settings;
+
+			if ( 1 === $clone_settings['prefix_name'] ) {
+				$this->name = $clone_parent_acftcp_field_ref->name . '_' . $this->name;
+			}
+
+		}
+
 		// partial to use for rendering
 		$this->render_partial = $this->get_render_partial();
 
@@ -93,6 +110,7 @@ class ACFTCP_Field {
 			$this->label = $this->settings['label'];
 			$this->name = $this->settings['name'];
 			$this->type = $this->settings['type'];
+			$this->var_name = $this->get_var_name();
 
 			// if field is not nested
 			if ( 0 == $this->nesting_level ) {
@@ -118,6 +136,7 @@ class ACFTCP_Field {
 			$this->id = $field_data_obj->ID; // required for flexible layout
 			$this->label = $field_data_obj->post_title;
 			$this->name = $field_data_obj->post_excerpt;
+			$this->var_name = $this->get_var_name();
 			$this->type = $this->settings['type'];
 
 			// if field is not nested
@@ -146,6 +165,22 @@ class ACFTCP_Field {
 
 	}
 
+	// Get the variable name
+	private function get_var_name() {
+
+		// Replace any hyphens with underscores
+		$var_name = str_replace('-', '_', $this->name);
+
+		// Replace any other special chars with underscores
+		$var_name = preg_replace('/[^A-Za-z0-9\-]/', '_', $var_name);
+
+		// Replace multiple underscores with single
+		$var_name = preg_replace('/_+/', '_', $var_name);
+
+		return $var_name;
+
+	}
+
 
 	// Get the path to the partial used for rendering the field
 	private function get_render_partial() {
@@ -157,10 +192,12 @@ class ACFTCP_Field {
 				 in_array( $this->type, ACFTCP_Core::$tc_pro_field_types ) ) {
 				$render_partial = ACFTCP_Core::$plugin_path . 'pro/render/' . $this->type . '.php';
 			}
+			
 			// Basic field types with a shared partial
 			elseif ( in_array( $this->type, ACFTCP_Core::$basic_types ) ) {
 				$render_partial = ACFTCP_Core::$plugin_path . 'render/basic.php';
 			}
+
 			// Field types with their own partial
 			else {
 				$render_partial = ACFTCP_Core::$plugin_path . 'render/' . $this->type . '.php';
@@ -172,38 +209,56 @@ class ACFTCP_Field {
 
 	}
 
-
 	// Render theme PHP for field
 	public function render_field() {
 
 		if ( !empty($this->type) ) {
 
-			// if the field is a tab or a message, bail early
-			if($this->type == 'tab' || $this->type == 'message' || $this->type == 'accordion' || $this->type == 'enhanced_message' || $this->type == 'row') {
+			// Bail early for these field types
+			if ($this->type == 'tab' ||
+			 	$this->type == 'message' ||
+				$this->type == 'accordion' ||
+				$this->type == 'enhanced_message' ||
+				$this->type == 'row') {
+
 				return;
 			}
 
-			if ( 0 == $this->nesting_level ) {
+			if ( 0 == $this->nesting_level && !$this->clone ) {
 
-				// open field meta div
+				// Open field meta div
 				echo '<div class="acftc-field-meta">';
 
-				// dev - debug label
-				//echo htmlspecialchars('<h2>'. $this->label .'</h2>');
+					// Setup a var for debug mode
+					$debug_mode = '';
 
-				// dev - debug field partial
-				//echo htmlspecialchars('<h2>'. $this->label .'</h2>');
+					// Chcek if debug mode is set, escape and store the value
+					if ( isset( $_GET["debug"] ) ) {
 
-				// code block title - simple version
-				echo '<span class="acftc-field-meta__title" data-pseudo-content="'. $this->label .'"></span>';
+						$debug_mode = htmlspecialchars( $_GET["debug"] );
 
-				// close field meta div
+					}
+
+					// If debug mode is true
+					if( $debug_mode == 'on' ) {
+
+						// Echo the label as a heading for debugging
+						echo htmlspecialchars('<h2>Debug: '. $this->label .'</h2>');
+
+					} else {
+
+						// Echo the code block title as pseudo contnet to avoid selection
+						echo '<span class="acftc-field-meta__title" data-type="'. $this->type .'"data-pseudo-content="'. $this->label .'"></span>';
+
+					}
+
+				// Close field meta div
 				echo '</div>';
 
-				// open div for field code wrapper (used for the button etc)
+				// Open div for field code wrapper (used for the button etc)
 				echo '<div class="acftc-field-code" id="acftc-' . $this->quick_link_id . '">';
-				
-				// copy button
+
+				// Copy button
 				echo '<a href="#" class="acftc-field__copy" title="Copy to Clipboard"></a>';
 
 				// PHP code block for field
@@ -215,15 +270,16 @@ class ACFTCP_Field {
 			if ( file_exists( $this->render_partial ) ) {
 				include( $this->render_partial );
 			}
+
 			// Field not supported at all (yet)
 			else {
 				echo $this->indent . htmlspecialchars( "<?php // The " . $this->type  . " field type is not supported in this verison of the plugin. ?>" ) . "\n";
 				echo $this->indent . htmlspecialchars( "<?php // Contact http://www.hookturn.io to request support for this field type. ?>" ) . "\n";
 			}
 
-			if ( 0 == $this->nesting_level ) {
+			if ( 0 == $this->nesting_level && !$this->clone ) {
 
-				// close PHP code block
+				// Close PHP code block
 				echo '</div></code></pre>';
 			}
 
