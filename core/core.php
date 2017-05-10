@@ -6,6 +6,7 @@ class ACFTCP_Core {
 
 	public static $plugin_path = '';
 	public static $plugin_url = '';
+	public static $plugin_version = '';
 	public static $db_table = '';
 	public static $indent_repeater = 2;
 	public static $indent_flexible_content = 3;
@@ -49,11 +50,12 @@ class ACFTCP_Core {
 	/**
 	 * ACFTCP_Core constructor
 	 */
-	public function __construct( $plugin_path, $plugin_url ) {
+	public function __construct( $plugin_path, $plugin_url, $plugin_version ) {
 
-		// Paths and URLs
+		// Paths, URLS and plugin version
 		self::$plugin_path = $plugin_path;
 		self::$plugin_url = $plugin_url;
+		self::$plugin_version = $plugin_version;
 
 		// Hooks
 		add_action( 'admin_init', array($this, 'set_db_table') );
@@ -64,36 +66,53 @@ class ACFTCP_Core {
 
 
 	/**
-	 * Check if ACF plugin is free or pro version
+	 * Set the DB Table (as this changes between version 4 and 5)
+	*  So we need to check if we're using version 4 or version 5 of ACF
+	 * This includes ACF 5 in a theme or ACF 4 or 5 installed via a plugin
 	 */
 	public function set_db_table() {
 
-		/**
-		 * If fields are created with ACF and then ACF PRO is installed and
-		 * activated, the ACF fields are moved to the ACF PRO database structure.
-		 * If ACF PRO is then deactivated and ACF is reactivated the fields
-		 * won't appear in the admin.
-		 *
-		 * If fields are created with ACF PRO and then ACF is activated
-		 * as well, only the fields created in ACF PRO will be visible
-		 * in the the admin.
-		 *
-		 * If fields are created with ACF after activating and
-		 * deactivating ACF PRO, they will only appear while ACF is
-		 * activated and ACF PRO is deactivated. ACF PRO doesn't appear to
-		 * convert fields to the new database structure more than once.
-		 *
-		 * Hence the following logic order is used:
-		 */
+		// If we can't detect ACF
+		if ( ! class_exists( 'acf' )  ) {
 
-		if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) || // ACF Pro
- 	         is_plugin_active( 'advanced-custom-fields-pro-beta/acf.php') || // ACF Pro Beta
- 	         is_plugin_active( 'acf-pro-master/acf.php' ) ) { // ACF Pro Beta alt
- 	        self::$db_table = 'posts';
- 	    } elseif  ( is_plugin_active('advanced-custom-fields/acf.php' ) ) { // ACF
- 	        self::$db_table = 'postmeta';
- 	    }
-		
+			// bail early
+			return;
+
+		 }
+
+		// Check for the function acf_get_setting - this came in version 5
+		if ( function_exists( 'acf_get_setting' ) ) {
+
+			// Get the version to be sure
+			// This will return a srting of the version eg '5.0.0'
+			$version = acf_get_setting( 'version' );
+
+		} else {
+
+			// Use the version 4 logic to get the version
+			// This will return a string if the plugin is active eg '4.4.11'
+			// This will retrn the string 'version' if the plugin is not active
+			$version = apply_filters( 'acf/get_info', 'version' );
+
+		}
+
+		// Get only the major version from the version string (the first character)
+		$major_version = substr( $version, 0 , 1 );
+
+		// If the major version is 5
+		if( $major_version == '5' ) {
+
+			// Set the db table to posts
+			self::$db_table = 'posts';
+
+		// If the major version is 4
+		} elseif( $major_version == '4' ) {
+
+			// Set the db table to postmeta
+			self::$db_table = 'postmeta';
+
+		}
+
 	}
 
 
@@ -106,7 +125,7 @@ class ACFTCP_Core {
 			'acftc-meta-box',
 			__( 'Theme Code', 'acf_theme_code_pro' ),
 			array( $this, 'display_callback'),
-			array( 'acf', 'acf-field-group' ) // same meta box used for ACF and ACF PRO
+			array( 'acf', 'acf-field-group' )
 		);
 
 	}
@@ -117,64 +136,10 @@ class ACFTCP_Core {
 	 *
 	 * @param WP_Post $post Current post object.
 	 */
-	public function display_callback( $post ) {
+	public function display_callback( $field_group_post_obj ) {
 
-		if ( self::$db_table == 'postmeta') {
-
-			$parent_field_group = new ACFTCP_Group( $post->ID );
-
-		} elseif ( self::$db_table == 'posts') {
-
-			$field_group_location = $this->get_field_group_locations( $post ); // TODO: incomplete functionality
-
-			$parent_field_group = new ACFTCP_Group( $post->ID, 0 , 0 , $field_group_location);
-			// ACFTCP_Group( $field_group_id, $nesting_level, $indent_count, $location) {
-
-		}
-
-		if ( !empty( $parent_field_group->fields ) ) {
-
-			$parent_field_group->render_field_group();
-
-		} else {
-
-			echo '<div class="acftc-intro-notice"><p>Create some fields and publish the field group to generate theme code.</p></div>';
-
-		}
-
-	}
-
-
-	/**
-	 * Get field group locations
-	 *
-	 * @param WP_Post $post Current post object.
-	 */
-	private function get_field_group_locations( $post ) {
-
-		// get field group locations from field group post content
-		if ( $post->post_content ) {
-
-			$field_group_location_content = unserialize( $post->post_content );
-
-			foreach ( $field_group_location_content['location']  as $location_condition_group ) {
-
-				foreach ( $location_condition_group as $location_condition ) {
-
-					// TODO: currently this function only supports "options_page".
-
-					if ( "options_page" == $location_condition['param'] &&
-						 "==" == $location_condition['operator'] ) {
-
-						return "options_page";
-
-					}
-
-				}
-
-			}
-
-		}
+		$locations_ui = new ACFTCP_Locations( $field_group_post_obj );
+		$locations_ui->render_locations();
 
 	}
 
@@ -189,17 +154,17 @@ class ACFTCP_Core {
 		if( 'acf-field-group' == $post_type || 'acf' == $post_type ) {
 
 			// Plugin styles
-			wp_enqueue_style( 'acftc_css', self::$plugin_url . 'assets/acf-theme-code.css');
+			wp_enqueue_style( 'acftc_css', self::$plugin_url . 'assets/acf-theme-code.css', '' , self::$plugin_version);
 
 			// Prism (code formatting)
-			wp_enqueue_style( 'acftc_prism_css', self::$plugin_url . 'assets/prism.css');
-			wp_enqueue_script( 'acftc_prism_js', self::$plugin_url . 'assets/prism.js' );
+			wp_enqueue_style( 'acftc_prism_css', self::$plugin_url . 'assets/prism.css', '' , self::$plugin_version);
+			wp_enqueue_script( 'acftc_prism_js', self::$plugin_url . 'assets/prism.js', '' , self::$plugin_version);
 
 			// Clipboard
-			wp_enqueue_script( 'acftc_clipboard_js', self::$plugin_url . 'assets/clipboard.js' );
+			wp_enqueue_script( 'acftc_clipboard_js', self::$plugin_url . 'assets/clipboard.js', '' , self::$plugin_version);
 
 			// Plugin js
-			wp_enqueue_script( 'acftc_js', self::$plugin_url . 'assets/acf-theme-code.js', array( 'acftc_clipboard_js' ), '', true );
+			wp_enqueue_script( 'acftc_js', self::$plugin_url . 'assets/acf-theme-code.js', array( 'acftc_clipboard_js' ), '', self::$plugin_version );
 
 		}
 

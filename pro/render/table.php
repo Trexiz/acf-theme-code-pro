@@ -5,7 +5,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Support for table field
-echo $this->indent . htmlspecialchars(" <?php \$table = " . $this->get_field_method . "( '" . $this->name ."' ); ")."\n";
+echo $this->indent . htmlspecialchars(" <?php \$table = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ")."\n";
 echo $this->indent . htmlspecialchars(" if ( \$table ) { ")."\n";
 echo $this->indent . htmlspecialchars("     echo '<table>'; ")."\n";
 echo $this->indent . htmlspecialchars("         if ( \$table['header'] ) { ")."\n";

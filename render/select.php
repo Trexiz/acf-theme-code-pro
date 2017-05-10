@@ -17,7 +17,7 @@ if($multiple_values == '0') {
 	if($return_format == 'array') {
 
 		// return a get field with the var name
-		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 		echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name."_array ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("	<?php foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("	 	<?php echo \$".$this->var_name."_item; ?>")."\n";
@@ -27,7 +27,7 @@ if($multiple_values == '0') {
 	} else {
 
 		// else retun the field
-		echo $this->indent . htmlspecialchars("<?php " . $this->the_field_method . "( '" . $this->name . "' ); ?>")."\n";
+		echo $this->indent . htmlspecialchars("<?php " . $this->the_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 
 	}
 }
@@ -38,7 +38,7 @@ if($multiple_values == '1') {
 	if($return_format == 'array') {
 
 		// multi dimensional array
-		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 		echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name."_array ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("	<?php foreach ( \$".$this->var_name."_array as \$".$this->var_name."_sub_array ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("		<?php foreach ( \$".$this->var_name."_sub_array as \$".$this->var_name."_sub_array_item ): ?>")."\n";
@@ -50,7 +50,7 @@ if($multiple_values == '1') {
 	} else {
 
 		// loop over the array
-		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+		echo $this->indent . htmlspecialchars("<?php \$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 		echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name."_array ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("	<?php foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ): ?>")."\n";
 		echo $this->indent . htmlspecialchars("	 	<?php echo \$".$this->var_name."_item; ?>")."\n";

@@ -6,5 +6,5 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Get field (array) and return a var dump
-echo $this->indent . htmlspecialchars("<?php $".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."' );")."\n";
+echo $this->indent . htmlspecialchars("<?php $".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " );")."\n";
 echo $this->indent . htmlspecialchars("// var_dump( $".$this->var_name." ); ?>")."\n";

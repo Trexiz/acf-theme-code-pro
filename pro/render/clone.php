@@ -28,9 +28,7 @@ if ( !empty( $cloned_items) ) { // make sure at least one field has been selecte
 
             if ( $single_field_object ) {
 
-                $field_location = ''; // TODO: Temp - incomplete location functionality
-
-                $acftc_field = new ACFTCP_Field( $this->nesting_level, $this->indent_count, $field_location, $single_field_object, $this); // Last argument is $clone_parent_acftcp_group_ref
+                $acftc_field = new ACFTCP_Field( $this->nesting_level, $this->indent_count, $this->location, $single_field_object, $this); // Last argument is $clone_parent_acftcp_group_ref
 
                 $acftc_field->render_field();
 
@@ -45,9 +43,7 @@ if ( !empty( $cloned_items) ) { // make sure at least one field has been selecte
 
             if ( $cloned_field_group_post_object ) {
 
-                $field_group_location = ''; // TODO: Temp - incomplete location functionality
-
-                $cloned_acftcp_group = new ACFTCP_Group( $cloned_field_group_post_object->ID, $this->nesting_level, $this->indent_count, $field_group_location, $this );
+                $cloned_acftcp_group = new ACFTCP_Group( $cloned_field_group_post_object->ID, null, $this->nesting_level, $this->indent_count, $this->location, $this );
 
                 $cloned_acftcp_group->render_field_group();
 

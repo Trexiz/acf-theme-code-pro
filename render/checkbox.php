@@ -11,7 +11,7 @@ if($return_format == 'value' || $return_format == 'label') {
 
     // Return the code to ouput the vlaue from an array
     echo $this->indent . htmlspecialchars("<?php // ".$this->name." ( ".$return_format." )")."\n";
-    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
+    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name ."'". $this->location . " );")."\n";
     echo $this->indent . htmlspecialchars("if ( \$".$this->var_name."_array ):")."\n";
     echo $this->indent . htmlspecialchars("	foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ):")."\n";
     echo $this->indent . htmlspecialchars("	 	echo \$".$this->var_name."_item;")."\n";
@@ -22,7 +22,7 @@ if($return_format == 'value' || $return_format == 'label') {
 
     // Return the code to output the value from a multi dimensional array
     echo $this->indent . htmlspecialchars("<?php // ".$this->name." ( ".$return_format." )")."\n";
-    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name . "' );")."\n";
+    echo $this->indent . htmlspecialchars("\$".$this->var_name."_array = ". $this->get_field_method . "( '" . $this->name ."'". $this->location . " );")."\n";
     echo $this->indent . htmlspecialchars("if ( \$".$this->var_name."_array ):")."\n";
     echo $this->indent . htmlspecialchars("	foreach ( \$".$this->var_name."_array as \$".$this->var_name."_item ):")."\n";
     echo $this->indent . htmlspecialchars("	 	echo \$".$this->var_name."_item['value'];")."\n";
@@ -33,7 +33,7 @@ if($return_format == 'value' || $return_format == 'label') {
 
     // Fallback to acf 5.3 style output
     echo $this->indent . htmlspecialchars("<?php // ".$this->name)."\n";
-    echo $this->indent . htmlspecialchars("\$field = ". $this->get_field_object_method ."( '" . $this->name . "' );")."\n";
+    echo $this->indent . htmlspecialchars("\$field = ". $this->get_field_object_method ."( '" . $this->name ."'". $this->location . " );")."\n";
     echo $this->indent . htmlspecialchars("\$value = \$field['value'];")."\n";
     echo $this->indent . htmlspecialchars("\$choices = \$field['choices'];")."\n";
     echo $this->indent . htmlspecialchars("if ( \$value ):")."\n";

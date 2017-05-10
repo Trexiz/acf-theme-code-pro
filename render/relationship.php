@@ -9,7 +9,7 @@ $return_format = isset( $this->settings['return_format'] ) ? $this->settings['re
 
 // If returned as object
 if ( $return_format == 'object' ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ): ?>")."\n";
 	echo $this->indent . htmlspecialchars("	<?php foreach ( \$".$this->var_name." as \$post ):  ?>")."\n";
 	echo $this->indent . htmlspecialchars("		<?php setup_postdata ( \$post ); ?>")."\n";
@@ -21,7 +21,7 @@ if ( $return_format == 'object' ) {
 
 // IF returned as ID
 if ( $return_format == 'id' ) {
-	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name . "' ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
 	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ): ?>")."\n";
 	echo $this->indent . htmlspecialchars("	<?php foreach ( \$".$this->var_name." as \$p ): ?>")."\n";
 	echo $this->indent . htmlspecialchars("		<a href=\"<?php echo get_permalink( \$p ); ?>\"><?php echo get_the_title( \$p ); ?></a>")."\n";

@@ -10,13 +10,13 @@ $return_format = isset( $this->settings['return_value'] ) ? $this->settings['ret
 
 // Return format 'css rgba'
 if ( $return_format == '0' ) {
-    echo $this->indent . htmlspecialchars("<?php \$".$this->var_name. ' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
+    echo $this->indent . htmlspecialchars("<?php \$".$this->var_name. ' = ' . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
     echo $this->indent . htmlspecialchars("<?php echo \$".$this->var_name."; ?>")."\n";
 }
 
 // Return format 'css rgba'
 if ( $return_format == '1' ) {
-    echo $this->indent . htmlspecialchars("<?php \$".$this->var_name. ' = ' . $this->get_field_method . "( '" . $this->name ."' ); ?>")."\n";
+    echo $this->indent . htmlspecialchars("<?php \$".$this->var_name. ' = ' . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
     echo $this->indent . htmlspecialchars("<?php echo \$".$this->var_name."['hex']; ?>")."\n";
     echo $this->indent . htmlspecialchars("<?php echo \$".$this->var_name."['opacity']; ?>")."\n";
 }

@@ -5,12 +5,8 @@
 // Class for a layout in a flexible content field.
 class ACFTCP_Flexible_Content_Layout {
 
-	// Properties
-	private $layout_key;
-	private $parent_field_id;
-
-	public $name; // turn back to private?
-	public $sub_fields; // turn back to private?
+	public $name; // Used in flexible content layout render partial
+	public $sub_fields; // Used in flexible content layout render partial
 
 	/**
 	 * $nesting_level
@@ -23,27 +19,51 @@ class ACFTCP_Flexible_Content_Layout {
 	public $indent_count;
 	public $field_location;
 
-	// Constructor
-	function __construct( $layout_key, $parent_field_id, $name, $nesting_level = 0, $indent_count = 0, $field_location ) {
-
-		$this->layout_key = $layout_key;
-		$this->parent_field_id = $parent_field_id;
+	/**
+	* Constructor
+	*
+	* @param string	$name
+	* @param int 	$nesting_level
+	* @param int 	$indent_count
+	* @param string $field_location
+	* @param strong	$layout_key			Used to get sub fields (ACF PRO)
+	* @param int	$parent_field_id	Used to get sub fields (ACF PRO)
+	* @param array 	$sub_fields			Used to get sub fields (Flexi add on)
+	*/
+	function __construct( $name, $nesting_level = 0, $indent_count = 0, $field_location = '', $layout_key = null, $parent_field_id = null, $sub_fields = null ) {
 
 		$this->name = $name;
-		$this->sub_fields = $this->get_sub_fields();
 		$this->nesting_level = $nesting_level;
 		$this->indent_count = $indent_count;
 		$this->field_location = $field_location;
 
+		// If flexi add on is used
+		if ( 'postmeta' == ACFTCP_Core::$db_table ) {
+
+			$this->sub_fields = $sub_fields;
+
+		}
+		// Else ACF PRO is used
+		elseif ( 'posts' == ACFTCP_Core::$db_table ) {
+
+			$this->sub_fields = $this->get_sub_fields_from_posts_table( $layout_key, $parent_field_id );
+
+		}
+
 	}
 
-	// Get all sub fields in layout
-	private function get_sub_fields() {
+	/**
+	* Get all sub fields in layout
+	*
+	* @param $layout_key
+	* @param $parent_field_id
+	*/
+	private function get_sub_fields_from_posts_table( $layout_key, $parent_field_id ) {
 
 		// get all sub fields of parent field
 		$query_args = array(
-			'post_type' =>  array( 'acf-field' , 'acf' ), // to do : should this be a conditional?
-			'post_parent' => $this->parent_field_id,
+			'post_type' =>  array( 'acf-field' , 'acf' ), // TODO should this be a conditional?
+			'post_parent' => $parent_field_id,
 			'posts_per_page' => '-1',
 			'orderby' => 'menu_order',
 			'order' => 'ASC',
@@ -61,7 +81,7 @@ class ACFTCP_Flexible_Content_Layout {
 			$sub_field_layout_key = $sub_field_content['parent_layout'];
 
 			// if sub field belongs to layout, add it to the array of fields
-			if ( $this->layout_key == $sub_field_layout_key ) {
+			if ( $layout_key == $sub_field_layout_key ) {
 				array_push( $layout_sub_fields, $sub_field );
 			}
 
@@ -77,8 +97,7 @@ class ACFTCP_Flexible_Content_Layout {
 		// loop through sub fields
 		foreach ( $this->sub_fields as $sub_field ) {
 
-			// temp to resolve php notice
-			$field_location = '';
+			$field_location = ''; // TODO: Is this needed?
 
 			$acftc_field = new ACFTCP_Field( $this->nesting_level, $this->indent_count, $field_location, $sub_field );
 

@@ -119,3 +119,65 @@ a.acftc-contact-link {
 .li-field-type {
 	width: 22% !important;
 }
+
+/* styles for the location section */
+.acf-locations { 
+	border-bottom:1px solid #e5e5e5;
+}
+.acf-locations .acf-field .acf-label label { 
+	line-height: 28px;
+}
+
+/* hide all the locations to start */
+.location-wrap { 
+	display: none;
+}
+
+/* show the first one */
+#acftc-group-0.location-wrap { 
+	display: block;
+}
+
+
+/* location intro area styles for v4 only - body.post-type-acf is only in acf 4 */ 
+body.post-type-acf .acf-locations { 
+	overflow: auto;
+	width: 100%;
+	display: block;
+}
+body.post-type-acf .acf-locations .acf-label { 
+	width: 24%;
+	margin: 0;
+	padding: 15px 12px;
+	float: left;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #F9F9F9;
+	border-right:1px solid #E1E1E1;
+	font-weight: bold;
+}
+
+body.post-type-acf .acf-locations .acf-input { 
+	width: 76%;
+	margin: 0;
+	padding: 15px 12px;
+	float: left;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body.post-type-acf .acf-locations .acf-field select  {
+	width: 100%;
+	padding: 3px 5px;
+	resize: none;
+	margin: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 1.4;
+}

@@ -7,13 +7,31 @@
 			event.preventDefault();
 		});
 
+		// On toggle of the location
+		$( "#acftc-group-option" ).change(function( event ) {
+
+			// get the selected value
+			var activediv = $(this).val();
+
+			// hide all the divs
+			$('.location-wrap').slideUp();
+
+			// slide down the one we want
+			$('#' + activediv ).slideDown();
+
+		});
+
 		// ACF 4 - add anchor link to each field object
 		$( "div.field" ).each(function( index ) {
 			var field_key = $(this).attr("data-id");
 			var data_type = $(this).attr("data-type");
-			if ( ( data_type != 'tab' ) && ( data_type != 'message') ) {
-  				$(this).find('.row_options').append( '<span>| <a class="acftc-scroll__link" href="#acftc-' + field_key + '">Code</a></span>' );
+
+			// find the parent class - this is to prevent mulitple links added to a repeater
+			var parent_class = $(this).parent().parent().prop('className');
+			if ( ( data_type != 'tab' ) && ( data_type != 'message') && ( parent_class == 'inside' ) ) {
+				  $(this).find('.row_options').first().append( '<span>| <a class="acftc-scroll__link" href="#acftc-' + field_key + '">Code</a></span>' );
 			}
+
 		});
 
 		// ACF 5 - add anchor link to each field object
@@ -21,7 +39,7 @@
 
 			// exclude nested fields
 			.filter( function() {
-			    return $(this).parentsUntil('#acf-field-group-fields', '.acf-field-object').length === 0;
+				return $(this).parentsUntil('#acf-field-group-fields', '.acf-field-object').length === 0;
 			});
 
 		fieldsV5.each(function( index ) {
@@ -39,26 +57,41 @@
 		});
 
 		// smooth scroll - with offset for title and WP admin bar
-		$('a[href*=\\#]:not([href=\\#])').click(function() {
-			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-			  var target = $(this.hash);
-			  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-			  var target_offset = target.offset().top;
+		$('a.acftc-scroll__link').click(function(event) {
 
-			  // after the large bp, the header is fixed
-			  if (window.matchMedia("(max-width: 782px)").matches) {
-				var customoffset = 80; // increase offset for small screens
-			  } else {
-				var customoffset = 60; // default offset for large screens
-			  }
+			// prevent default
+			event.preventDefault();
 
-			  if (target.length) {
-			    $('html,body').animate({
-			      scrollTop: target_offset - customoffset
-			    }, 1000);
-			    return false;
-			  }
+			// find the location that's selected
+			var location = $( "#acftc-group-option option:selected" ).val();
+
+			// if there is nothing selected
+			if( location == null ) {
+				var location = 'acftc-meta-box .inside';
 			}
+
+			// find the field that we want to scroll to (from the hash)
+			var hash = $(this).attr("href");
+
+			// define a target field
+			var target = $('#' + location + ' ' + hash);
+
+			// find the offset from the top of our target field
+			var target_offset = target.offset().top;
+
+			// after the large bp, the header is fixed
+			if (window.matchMedia("(max-width: 782px)").matches) {
+				var customoffset = 80; // increase offset for small screens
+			} else {
+				var customoffset = 60; // default offset for large screens
+			}
+
+			$('html,body').animate({
+				scrollTop: target_offset - customoffset
+			}, 1000);
+
+			return false;
+
 		});
 
 	});

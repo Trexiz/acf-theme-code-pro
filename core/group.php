@@ -7,14 +7,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class ACFTCP_Group {
 
-	// field group id
+	// field group id (used to query for fields)
 	private $id;
 
 	/**
 	 * array of all fields in field group
 	 *
 	 * if using postmeta table this will be an array of post meta objects
-	 * if using posts table this will be and array of Post objects
+	 * if using posts table this will be an array of Post objects
+	 * if using repeater add on, this will be an array of fields stored in arrays
 	 */
 	public $fields;
 
@@ -35,29 +36,39 @@ class ACFTCP_Group {
 	public $clone_parent_acftcp_group_ref = null;
 
 	// field location (for options panel etc)
-	public $location; // TODO: Incomplete functionality
+	public $location;
 
 	/**
 	 * Constructor for field group
 	 *
 	 * @param $field_group_id					int
+	 * @param $fields							array
 	 * @param $nesting_level					int
 	 * @param $indent_count						int
 	 * @param $location							string
 	 * @param $clone_parent_acftcp_group_ref	object ref
 	 */
-	function __construct( $field_group_id, $nesting_level = 0, $indent_count = 0, $location = '', &$clone_parent_acftcp_group_ref = null ) {
+	function __construct( $field_group_id = null, $fields = null, $nesting_level = 0, $indent_count = 0, $location = '', &$clone_parent_acftcp_group_ref = null ) {
 
-		if ( !empty( $field_group_id ) ) {
+		// Constructor requires either fields or a field group id
+		if ( empty( $field_group_id ) && empty( $fields ) ) {
+			return false;
+		}
 
+		// Use fields provided (repeater add on in use)
+		if ( !empty( $fields ) && is_array( $fields ) ) {
+			$this->fields = $fields;
+		}
+		// Get fields by field group id
+		elseif ( !empty( $field_group_id ) ) {
 			$this->id = $field_group_id;
 			$this->fields = $this->get_fields();
-			$this->nesting_level = $nesting_level;
-			$this->indent_count = $indent_count;
-			$this->location = $location; // TODO: Incomplete functionality
-			$this->clone_parent_acftcp_group_ref = &$clone_parent_acftcp_group_ref;
-
 		}
+
+		$this->nesting_level = $nesting_level;
+		$this->indent_count = $indent_count;
+		$this->location = $location;
+		$this->clone_parent_acftcp_group_ref = &$clone_parent_acftcp_group_ref;
 
 	}
 
@@ -126,6 +137,9 @@ class ACFTCP_Group {
 	 */
 	public function render_field_group() {
 
+		// TODO: Is sorting necessary for sub fields of repeater created with
+		// the repeater add on? They do have order_no data.
+
 		// ACF - create, sort and render fields
 		if ( 'postmeta' == ACFTCP_Core::$db_table ) {
 
@@ -152,7 +166,7 @@ class ACFTCP_Group {
 				$acftc_field->render_field();
 			}
 
-		 }
+		}
 
 		// ACF PRO - create and render fields (no sorting required)
 		elseif ( 'posts' == ACFTCP_Core::$db_table ) {
