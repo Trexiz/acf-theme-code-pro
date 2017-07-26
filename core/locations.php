@@ -11,7 +11,7 @@ class ACFTCP_Locations {
 	private $field_group_post_ID = null;
 
 	// Location rules
-	private $location_rules = [];
+	private $location_rules = array();
 
 	// Locations that are excluded because they aren't really locations
 	// (they relate to the backend visiblity of the field group)
@@ -79,7 +79,7 @@ class ACFTCP_Locations {
 	 */
 	private function get_location_rules_from_posts_table( $field_group_post_obj ) {
 
-		$location_rules = [];
+		$location_rules = array();
 
 		// Get location rules from field group post content
 		$field_group_post_content = unserialize( $field_group_post_obj->post_content );
@@ -110,7 +110,7 @@ class ACFTCP_Locations {
 	*/
 	private function get_location_rules_from_postmeta_table( $field_group_post_obj ) {
 
-		$location_rules = [];
+		$location_rules = array();
 
 		global $wpdb;
 
@@ -314,7 +314,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("// \$user_id = get_current_user_id();") . "\n\n";
 
 			$location_php .= htmlspecialchars("// Define prefixed user ID") . "\n";
-			$location_php .= htmlspecialchars("\$useracf_prefix = 'user_';") . "\n";
+			$location_php .= htmlspecialchars("\$user_acf_prefix = 'user_';") . "\n";
 			$location_php .= htmlspecialchars("\$user_id_prefixed = \$user_acf_prefix . \$user_id;") . "\n";
 
 			$location_php .= htmlspecialchars("?>");

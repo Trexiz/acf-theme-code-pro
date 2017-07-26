@@ -4,24 +4,19 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Repater field vars
-$field_location = '';
-$nesting_arg = 0;
-
-// Set sub field nesting level and indent
-$sub_field_indent_count = $this->indent_count + ACFTCP_Core::$indent_repeater;
-
-// ACF PRO repeater
-if ( "posts" == ACFTCP_Core::$db_table ) {
+// ACFTCP_Group arguments
+if ( "posts" == ACFTCP_Core::$db_table ) { // ACF PRO repeater
 	$field_group_id = $this->id;
 	$fields = NULL;
 }
-// Repeater Add On
-elseif ( "postmeta" == ACFTCP_Core::$db_table ) {
+elseif ( "postmeta" == ACFTCP_Core::$db_table ) { // Repeater Add On
 	$field_group_id = NULL;
 	$fields = $this->settings['sub_fields']; // In this case $this->settings
 	// is actually just an array of all available field data
 }
+$nesting_arg = 0;
+$sub_field_indent_count = $this->indent_count + ACFTCP_Core::$indent_repeater;
+$field_location = '';
 
 $repeater_field_group = new ACFTCP_Group( $field_group_id, $fields, $nesting_arg + 1, $sub_field_indent_count, $field_location );
 

@@ -1,14 +1,23 @@
 === ACF Theme Code Pro ===
 Contributors: aaronrutley, ben-pearson
 Requires at least: 4.5.3
-Tested up to: 4.7
-Stable tag: 2.0.0
+Tested up to: 4.8
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ACF Theme Code will automatically generate the code needed to implement Advanced Custom Fields in your themes!
 
 == Changelog ==
+= 2.1.0 =
+* New Field Supported: Group Field found in ACF Pro v5.6
+* New Field Supported: Link Field found in ACF Pro v5.6
+* New Field Supported: Range Field (Third Party)
+* New Field Supported: Focal Point Field (Third Party)
+* Field: Code field improved to escape output by default
+* Field: Google Map field improved to return address, lat & lng
+* Core: resolved an issue with legacy PHP versions
+* Fix: Bug in File field PHP when returned as a URL
 
 = 2.0.0 =
 * Core : Theme Code Pro now generates code based on your location rules!

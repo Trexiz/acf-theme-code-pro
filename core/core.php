@@ -41,10 +41,13 @@ class ACFTCP_Core {
 		'address',
 		'acf_code_field',
 		'posttype_select',
-		'link',
 		'link_picker',
 		'youtubepicker',
-		'number_slider'
+		'number_slider',
+		'link',
+		'group',
+		'Range',
+		'focal_point'
 	);
 
 	/**

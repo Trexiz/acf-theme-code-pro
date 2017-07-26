@@ -1,10 +1,25 @@
 <?php
-// Link field
-// https://wordpress.org/plugins/acf-link/
+// Link field added in ACF 5.6
+// We no longer support the third party link field with the same name
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Basic support for the link field
-echo $this->indent . htmlspecialchars("<?php \$$this->name = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
-echo $this->indent . htmlspecialchars("<a href=\"<?php echo \$".$this->var_name."['url']; ?>\"><?php echo \$".$this->var_name."['title']; ?></a>")."\n";
+$return_format = isset( $this->settings['return_format'] ) ? $this->settings['return_format'] : '';
+
+if( $return_format == 'array' ) {
+
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ) { ?>")."\n";
+	echo $this->indent . htmlspecialchars("	<a href=\"<?php echo \$".$this->var_name."['url']; ?>\" target=\"<?php echo \$".$this->var_name."['target']; ?>\"><?php echo \$".$this->var_name."['title']; ?></a>")."\n";
+	echo $this->indent . htmlspecialchars("<?php } ?>\n");
+}
+
+if( $return_format == 'url' ) {
+
+	echo $this->indent . htmlspecialchars("<?php \$".$this->var_name." = " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ); ?>")."\n";
+	echo $this->indent . htmlspecialchars("<?php if ( \$".$this->var_name." ) { ?>")."\n";
+	echo $this->indent . htmlspecialchars("	<a href=\"<?php echo \$" . $this->var_name . "; ?>\"><?php echo \$" . $this->var_name . "; ?></a>")."\n";
+	echo $this->indent . htmlspecialchars("<?php } ?>\n");
+
+}

@@ -205,7 +205,7 @@ class ACFTCP_Field {
 
 		} elseif ($this->location == 'user_role' || $this->location == 'user_form' ) {
 
-			return ', $user_id';
+			return ', $user_id_prefixed';
 
 		} elseif ($this->location == 'taxonomy') {
 
@@ -264,13 +264,12 @@ class ACFTCP_Field {
 		if ( !empty($this->type) ) {
 
 			// Ignore these fields tyles
-			$ignore_field_types = [ 'tab', 'message', 'accordion', 'enhanced_message', 'row' ];
+			$ignore_field_types = array( 'tab', 'message', 'accordion', 'enhanced_message', 'row' );
 
 			// Bail early for these ignored field types
 			if ( in_array( $this->type, $ignore_field_types )) {
 				return;
 			}
-
 
 			if ( 0 == $this->nesting_level && !$this->clone ) {
 

@@ -6,4 +6,4 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Return the field wrapped in markup for a code block
-echo $this->indent . htmlspecialchars("<pre><code><?php " . $this->the_field_method . "( '" . $this->name ."'". $this->location . " ); ?></code></pre>")."\n";
+echo $this->indent . htmlspecialchars("<pre><code><?php echo esc_html( " . $this->get_field_method . "( '" . $this->name ."'". $this->location . " ) ); ?></code></pre>")."\n";
