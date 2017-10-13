@@ -1,14 +1,20 @@
 === ACF Theme Code Pro ===
 Contributors: aaronrutley, ben-pearson
 Requires at least: 4.5.3
-Tested up to: 4.8
-Stable tag: 2.1.0
+Tested up to: 4.8.2
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ACF Theme Code will automatically generate the code needed to implement Advanced Custom Fields in your themes!
 
 == Changelog ==
+
+= 2.2.0 =
+* New Field Supported: Button Field found in ACF Pro v5.6.3
+* New Field Supported: Range Field found in ACF Pro v5.6.2
+* Core: Copy All Feature Added
+
 = 2.1.0 =
 * New Field Supported: Group Field found in ACF Pro v5.6
 * New Field Supported: Link Field found in ACF Pro v5.6

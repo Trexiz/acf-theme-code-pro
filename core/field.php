@@ -306,7 +306,7 @@ class ACFTCP_Field {
 				echo '<div class="acftc-field-code" id="acftc-' . $this->quick_link_id . '">';
 
 				// Copy button
-				echo '<a href="#" class="acftc-field__copy" title="Copy to Clipboard"></a>';
+				echo '<a href="#" class="acftc-field__copy acf-js-tooltip" title="Copy to clipboard"></a>';
 
 				// PHP code block for field
 				echo '<pre class="line-numbers"><code class="language-php">';

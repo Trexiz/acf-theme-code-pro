@@ -11,7 +11,7 @@
 	position: relative;
 	width: 100%;
 	height: 22px;
-	margin-top: 15px;
+	padding-top: 15px;
 }
 
 .acftc-field-code {
@@ -29,14 +29,14 @@
 	-ms-user-select: none;      /* IE 10+ */
 	user-select: none;
 	position: absolute;
-	top:0;
+	top:15px;
 	left:20px;
 }
 
 .acftc-field-code .acftc-field__copy {
 	position: absolute;
 	top:-22px;
-	right:11px;
+	right:14px;
 	width: 12px;
 	height: 20px;
 	background: url(icon--clipboard.svg) center center no-repeat;
@@ -47,6 +47,7 @@
 	z-index: 1000;
 }
 
+.acftc-copy-all:hover, 
 .acftc-field-code .acftc-field__copy:hover  {
 	opacity: 1;
 }
@@ -96,6 +97,7 @@
 	}
 }
 
+.acftc-copy-all:focus,
 .acftc-field-code .acftc-field__copy:focus {
 	outline: 0;
 	border:none;
@@ -121,31 +123,31 @@ a.acftc-contact-link {
 }
 
 /* styles for the location section */
-.acf-locations { 
+.acf-locations {
 	border-bottom:1px solid #e5e5e5;
 }
-.acf-locations .acf-field .acf-label label { 
+.acf-locations .acf-field .acf-label label {
 	line-height: 28px;
 }
 
 /* hide all the locations to start */
-.location-wrap { 
+.location-wrap {
 	display: none;
 }
 
 /* show the first one */
-#acftc-group-0.location-wrap { 
+#acftc-group-0.location-wrap {
 	display: block;
 }
 
 
-/* location intro area styles for v4 only - body.post-type-acf is only in acf 4 */ 
-body.post-type-acf .acf-locations { 
+/* location intro area styles for v4 only - body.post-type-acf is only in acf 4 */
+body.post-type-acf .acf-locations {
 	overflow: auto;
 	width: 100%;
 	display: block;
 }
-body.post-type-acf .acf-locations .acf-label { 
+body.post-type-acf .acf-locations .acf-label {
 	width: 24%;
 	margin: 0;
 	padding: 15px 12px;
@@ -159,7 +161,7 @@ body.post-type-acf .acf-locations .acf-label {
 	font-weight: bold;
 }
 
-body.post-type-acf .acf-locations .acf-input { 
+body.post-type-acf .acf-locations .acf-input {
 	width: 76%;
 	margin: 0;
 	padding: 15px 12px;
@@ -180,4 +182,23 @@ body.post-type-acf .acf-locations .acf-field select  {
 	box-sizing: border-box;
 	font-size: 14px;
 	line-height: 1.4;
+}
+
+/* copy all */
+.acftc-copy-all {
+	position: absolute;
+	top:-28px;
+	right:10px;
+	width: 20px;
+	height: 20px;
+	background: url(icon--clipboard.svg) center center no-repeat;
+	background-size: 12px auto;
+	display: block;
+	opacity: 0.3;
+	transition: all 300ms ease-in;
+	z-index: 1000;
+}
+
+.acftc-copy-all:hover  {
+	opacity: 1;
 }

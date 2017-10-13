@@ -7,6 +7,13 @@
 			event.preventDefault();
 		});
 
+		// add the copy all button
+		$( "#acftc-meta-box .inside").prepend('<a href="#" class="acftc-copy-all  acf-js-tooltip" title="Copy all to clipboard"></a>');
+		$( "#acftc-meta-box .toggle-indicator").hide();
+
+		// add active to the first location
+		$('#acftc-group-0').addClass('location-wrap--active');
+
 		// On toggle of the location
 		$( "#acftc-group-option" ).change(function( event ) {
 
@@ -16,8 +23,14 @@
 			// hide all the divs
 			$('.location-wrap').slideUp();
 
+			// remove the active class from all the divs
+			$('.location-wrap').removeClass('location-wrap--active');
+
 			// slide down the one we want
 			$('#' + activediv ).slideDown();
+
+			// add the active class to the active div
+			$('#' + activediv ).addClass('location-wrap--active');
 
 		});
 
@@ -96,12 +109,6 @@
 
 	});
 
- } )( jQuery );
-
- // Instantiate clipboard
-
-(function(){
-
 	var copyCode = new Clipboard('.acftc-field__copy', {
 		target: function(trigger) {
 			return trigger.nextElementSibling;
@@ -112,4 +119,19 @@
 		e.clearSelection();
 	});
 
-})();
+	// copy all
+	var copyall = new Clipboard('.acftc-copy-all', {
+		text: function(trigger) {
+			return $('#acftc-meta-box').find(".location-wrap--active").text();
+		}
+	});
+
+	copyall.on('success', function(e) {
+		e.clearSelection();
+	});
+
+} )( jQuery );
+
+
+
+

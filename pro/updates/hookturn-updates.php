@@ -26,6 +26,8 @@ function hookturn_acftcp_license_page() {
 
 			<table class="form-table">
 				<tbody>
+					<?php if( $status != 'valid' ) { ?>
+
 					<tr valign="top">
 						<th scope="row" valign="top">
 							<?php _e('License Key'); ?>
@@ -35,21 +37,29 @@ function hookturn_acftcp_license_page() {
 							<label class="description" for="hookturn_acftcp_license_key"><?php _e('Enter your license key'); ?></label>
 						</td>
 					</tr>
-					<?php if( false !== $license ) { ?>
+					<?php } ?>
+					
+					<?php if( $license != '') { ?>
 						<tr valign="top">
-							<th scope="row" valign="top">
-								<?php _e('Activate License'); ?>
-							</th>
-							<td>
+
 								<?php if( $status !== false && $status == 'valid' ) { ?>
-									<span style="color:green;"><?php _e('active'); ?></span>
+									<th scope="row" valign="top">
+										<?php _e('License Status'); ?>
+									</th>
+									<td>
+									<span style="color:green; line-height:30px; padding-right:10px"><?php _e('Active'); ?></span>
 									<?php wp_nonce_field( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ); ?>
-									<input type="submit" class="button-secondary" name="edd_license_deactivate" value="<?php _e('Deactivate License'); ?>"/>
+										<input type="submit" class="button-secondary" name="edd_license_deactivate" value="<?php _e('Deactivate License'); ?>"/>
+									</td>
 								<?php } else {
 									wp_nonce_field( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ); ?>
-									<input type="submit" class="button-secondary" name="edd_license_activate" value="<?php _e('Activate License'); ?>"/>
+									<th scope="row" valign="top">
+										<?php _e('Activate License'); ?>
+									</th>
+									<td>
+										<input type="submit" class="button-secondary" name="edd_license_activate" value="<?php _e('Activate License'); ?>"/>
+									</td>
 								<?php } ?>
-							</td>
 						</tr>
 					<?php } ?>
 				</tbody>
@@ -87,7 +97,7 @@ function hookturn_acftcp_activate_license() {
 	if( isset( $_POST['edd_license_activate'] ) ) {
 
 		// run a quick security check
-	 	if( ! check_admin_referer( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ) )
+		 if( ! check_admin_referer( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 
 		// retrieve the license from the database
@@ -132,7 +142,7 @@ function hookturn_acftcp_deactivate_license() {
 	if( isset( $_POST['edd_license_deactivate'] ) ) {
 
 		// run a quick security check
-	 	if( ! check_admin_referer( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ) )
+		 if( ! check_admin_referer( 'hookturn_acftcp_nonce', 'hookturn_acftcp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 
 		// retrieve the license from the database

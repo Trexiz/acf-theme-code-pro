@@ -317,7 +317,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("\$user_acf_prefix = 'user_';") . "\n";
 			$location_php .= htmlspecialchars("\$user_id_prefixed = \$user_acf_prefix . \$user_id;") . "\n";
 
-			$location_php .= htmlspecialchars("?>");
+			$location_php .= htmlspecialchars("?>") . "\n";
 
 		// Attachment
 		} elseif ($location == 'attachment') {
@@ -333,7 +333,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("// Example: Get attachment ID (for use in attachment.php)") . "\n";
 			$location_php .= htmlspecialchars("// \$attachment_id = \$post->ID;") . "\n";
 
-			$location_php .= htmlspecialchars("?>");
+			$location_php .= htmlspecialchars("?>") . "\n";
 
 		// Taxonomy Term
 		} elseif ($location == 'taxonomy') {
@@ -354,7 +354,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("// Define prefixed term ID") . "\n";
 			$location_php .= htmlspecialchars("\$term_id_prefixed = \$taxonomy_prefix .'_'. \$term_id;") . "\n";
 
-			$location_php .= htmlspecialchars("?>");
+			$location_php .= htmlspecialchars("?>") . "\n";
 
 		// Comment
 		} elseif ($location == 'comment') {
@@ -371,7 +371,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("\$comment_acf_prefix = 'comment_';") . "\n";
 			$location_php .= htmlspecialchars("\$comment_id_prefixed = \$comment_acf_prefix . \$comment_id;") . "\n";
 
-			$location_php .= htmlspecialchars("?>");
+			$location_php .= htmlspecialchars("?>") . "\n";
 
 		// Widget
 		} elseif ($location == 'widget') {
@@ -388,7 +388,7 @@ class ACFTCP_Locations {
 			$location_php .= htmlspecialchars("\$widget_acf_prefix = 'widget_';") . "\n";
 			$location_php .= htmlspecialchars("\$widget_id_prefixed = \$widget_acf_prefix . \$widget_id;") . "\n";
 
-			$location_php .= htmlspecialchars("?>");
+			$location_php .= htmlspecialchars("?>") . "\n";
 
 
 		// Else location variables block is not required
@@ -408,7 +408,7 @@ class ACFTCP_Locations {
 		echo '<div class="acftc-field-code">';
 
 		// Copy button
-		echo '<a href="#" class="acftc-field__copy" title="Copy to Clipboard"></a>';
+		echo '<a href="#" class="acftc-field__copy acf-js-tooltip" title="Copy to Clipboard"></a>';
 
 		// PHP code block for field
 		echo '<pre class="line-numbers"><code class="language-php">';
