@@ -82,7 +82,8 @@ class ACFTCP_Locations {
 		$location_rules = array();
 
 		// Get location rules from field group post content
-		$field_group_post_content = unserialize( $field_group_post_obj->post_content );
+		// html entity decode added to fix issue with 'Disable the visual editor when writing'
+		$field_group_post_content = maybe_unserialize( html_entity_decode( $field_group_post_obj->post_content ));
 
 		if ( $field_group_post_content ) {
 			foreach ( $field_group_post_content['location'] as $location_rule_group ) {
@@ -242,7 +243,7 @@ class ACFTCP_Locations {
 		echo '<div class="acf-field acf-field-select" data-name="style" data-type="select">';
 		echo '<div class="acf-label"><label for="acf_field_group-style">Location</label></div>';
 		echo '<div class="acf-input">';
-		echo '<select id="acftc-group-option" class="" name="acf_field_group[style]" data-ui="0" data-ajax="0" data-multiple="0" data-placeholder="Select" data-allow_null="0">';
+		echo '<select id="acftc-group-option" class="" data-ui="0" data-ajax="0" data-multiple="0" data-placeholder="Select" data-allow_null="0">';
 
 		foreach ( $this->location_rules as $key => $location_rule ) {
 
@@ -381,7 +382,7 @@ class ACFTCP_Locations {
 			$location_php  = htmlspecialchars("<?php") . "\n";
 
 			$location_php .= htmlspecialchars("// Define widget ID") . "\n";
-			$location_php .= htmlspecialchars("// Replace NULL with ID of widget to be queried eg 'pages-2'") . "\n";
+			$location_php .= htmlspecialchars("// Replace NULL with ID of widget to be queried eg 'pages-2' or \$args['widget_id']") . "\n";
 			$location_php .= htmlspecialchars("\$widget_id = NULL;") . "\n\n";
 
 			$location_php .= htmlspecialchars("// Define prefixed widget ID") . "\n";

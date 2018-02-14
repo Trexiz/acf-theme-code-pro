@@ -3,7 +3,7 @@
 Plugin Name: Advanced Custom Fields: Theme Code Pro
 Plugin URI: https://hookturn.io/downloads/acf-theme-code-pro/
 Description: Generates theme code for ACF Pro field groups to speed up development.
-Version: 2.2.0
+Version: 2.3.0
 Author: hookturn
 Author URI: http://www.hookturn.io/
 License: GPLv2 or later
@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // define version
-define( 'HOOKTURN_ITEM_VERSION', '2.2.0' );
+define( 'HOOKTURN_ITEM_VERSION', '2.3.0' );
 
 // Check for dashboard or admin panel
 if ( is_admin() ) {
@@ -54,9 +54,9 @@ if ( is_admin() ) {
 // update functionality
 function hookturn_acftcp_plugin_updater() {
 
-	if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+	if( !class_exists( 'ACFTCP_Plugin_Updater' ) ) {
 		// load our custom updater
-		include( dirname( __FILE__ ) . '/pro/updates/EDD_SL_Plugin_Updater.php' );
+		include( dirname( __FILE__ ) . '/pro/updates/ACFTCP_Plugin_Updater.php' );
 	}
 
 	// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
@@ -69,7 +69,7 @@ function hookturn_acftcp_plugin_updater() {
 	$license_key = trim( get_option( 'hookturn_acftcp_license_key' ) );
 
 	// setup the updater
-	$edd_updater = new EDD_SL_Plugin_Updater( HOOKTURN_STORE_URL, __FILE__, array(
+	$edd_updater = new ACFTCP_Plugin_Updater( HOOKTURN_STORE_URL, __FILE__, array(
 			'version' 	=> HOOKTURN_ITEM_VERSION, 			// current version number
 			'license' 	=> $license_key, 		// license key (used get_option above to retrieve from DB)
 			'item_name' => HOOKTURN_ITEM_NAME, 	// name of this plugin

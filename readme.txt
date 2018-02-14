@@ -1,14 +1,25 @@
 === ACF Theme Code Pro ===
 Contributors: aaronrutley, ben-pearson
 Requires at least: 4.5.3
-Tested up to: 4.8.2
-Stable tag: 2.2.0
+Tested up to: 4.9.4
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ACF Theme Code will automatically generate the code needed to implement Advanced Custom Fields in your themes!
 
 == Changelog ==
+
+= 2.3.0 =
+* New Field Supported: ACF Ninja Forms add on
+* New Field Supported: ACF Gravity Forms add on
+* New Field Supported: ACF RGBA Colour picker
+* New Field(s) Supported: ACF qTranslate
+* Core: Resolved EDD Conflicts
+* Core: Improved Widget Location Variables
+* Fix: EDD naming conflict 
+* Fix: Location error if visual editor is disabled
+* Fix: Select Conflict with Seamless Field Group Option
 
 = 2.2.0 =
 * New Field Supported: Button Field found in ACF Pro v5.6.3

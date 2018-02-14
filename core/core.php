@@ -20,7 +20,11 @@ class ACFTCP_Core {
 		'wysiwyg',
 		'oembed',
 		'radio',
-		'range'
+		'range',
+		'extended-color-picker',
+		'qtranslate_text',
+		'qtranslate_textarea',
+		'qtranslate_wysiwyg'
 	);
 
 	// Field types supported by TC Pro
@@ -48,7 +52,10 @@ class ACFTCP_Core {
 		'link',
 		'group',
 		'focal_point',
-		'button_group'
+		'button_group',
+		'qtranslate_image',
+		'qtranslate_file',
+		'forms'
 	);
 
 	/**
